@@ -18,5 +18,3 @@ def create_parcel_record():
     }
     parcel = Parcel.objects.create(**defaults)
     return parcel
-
-

@@ -18,4 +18,3 @@ class TestParcel:
     def test_parcel_delete(self, create_parcel_record):
         create_parcel_record.delete()
         assert create_parcel_record.id is None, "Should delete the parcel record"
-
