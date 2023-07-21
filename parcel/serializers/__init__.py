@@ -1,0 +1,1 @@
+from parcel.serializers.parcel_serializer import ParcelSerializer
