@@ -1,5 +1,5 @@
 from django.db import models
-from base import BaseModel
+from parcel.base import BaseModel
 import uuid
 
 COMPLETED = "completed"

@@ -35,9 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Created apps
-    'parcel.apps.ParcelConfig',
+    'parcel',
 ]
 
 MIDDLEWARE = [
