@@ -1,5 +1,5 @@
 """
-WSGI config for Track_Ease project.
+WSGI config for track_ease project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Track_Ease.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'track_ease.settings')
 
 application = get_wsgi_application()

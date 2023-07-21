@@ -1,4 +1,4 @@
-from Track_Ease import settings
+from track_ease import settings
 
 
 def test_always_true():
