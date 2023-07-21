@@ -11,10 +11,9 @@ fake = Faker()
 def create_parcel_record():
     defaults = {
         "tracking_number": fake.random_int(),
-        "sender": fake.name(),
-        "recipient": fake.name(),
+        "departure_address": fake.address(),
+        "destination_address": fake.address(),
         "current_status": fake.word(),
-        "delivery_address": fake.address(),
     }
     parcel = Parcel.objects.create(**defaults)
     return parcel
