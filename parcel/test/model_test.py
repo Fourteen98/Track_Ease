@@ -18,3 +18,23 @@ class TestParcel:
     def test_parcel_delete(self, create_parcel_record):
         create_parcel_record.delete()
         assert create_parcel_record.id is None, "Should delete the parcel record"
+
+
+@pytest.mark.django_db
+class TestTrackingUpdate:
+    def test_tracking_update_creation(self, create_tracking_update_record):
+        assert create_tracking_update_record is not None, "Should create a tracking update instance"
+
+    def test_tracking_update_str(self, create_tracking_update_record):
+        assert create_tracking_update_record.__str__() == f"{create_tracking_update_record.parcel.tracking_number} - " \
+                                                          f"{create_tracking_update_record.status} - " \
+                                                          f"{create_tracking_update_record.timestamp}", \
+            "Should return " \
+            "the tracking " \
+            "number, status " \
+            "and timestamp"
+
+    def test_tracking_update_update(self, create_tracking_update_record):
+        create_tracking_update_record.status = "completed"
+        create_tracking_update_record.save()
+        assert create_tracking_update_record.status == "completed", "Should update the status field"
