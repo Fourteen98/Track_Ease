@@ -32,3 +32,17 @@ class TrackingUpdateListCreateView(generics.ListCreateAPIView):
             res['is_error'] = True
             res['message'] = 'Parcel not found'
             return Response(res, status=status.HTTP_404_NOT_FOUND)
+
+    def get(self, request, track_ease_id):
+        res = {
+            'is_error': False,
+            'message': ''
+        }
+        try:
+            parcel = Parcel.objects.get(id=track_ease_id)
+            serializer = TrackingUpdateSerializer(parcel.tracking_updates.all(), many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Parcel.DoesNotExist:
+            res['is_error'] = True
+            res['message'] = 'Parcel not found'
+            return Response(res, status=status.HTTP_404_NOT_FOUND)

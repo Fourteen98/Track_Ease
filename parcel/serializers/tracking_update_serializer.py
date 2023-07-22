@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from parcel.models import Parcel, TrackingUpdate
+from parcel.models import TrackingUpdate
 
 
 class TrackingUpdateSerializer(serializers.ModelSerializer):
