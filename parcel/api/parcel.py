@@ -13,7 +13,6 @@ class ParcelListCreateView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        breakpoint()
         serializer = ParcelSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer_instance = serializer.save()
@@ -41,7 +40,7 @@ class ParcelListCreateView(generics.ListCreateAPIView):
             'message': ''
         }
         try:
-            parcel = Parcel.objects.get(track_ease_id=track_ease_id)
+            parcel = Parcel.objects.get(pk=track_ease_id)
             serializer = ParcelSerializer(parcel, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
@@ -58,7 +57,7 @@ class ParcelListCreateView(generics.ListCreateAPIView):
             'message': ''
         }
         try:
-            parcel = Parcel.objects.get(track_ease_id=track_ease_id)
+            parcel = Parcel.objects.get(id=track_ease_id)
             serializer = ParcelSerializer(parcel, data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save()
@@ -70,16 +69,15 @@ class ParcelListCreateView(generics.ListCreateAPIView):
             return Response(res, status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, track_ease_id):
-        res = {
-            'is_error': False,
-            'message': ''
-        }
+
         try:
-            parcel = Parcel.objects.get(track_ease_id=track_ease_id)
+            parcel = Parcel.objects.get(id=track_ease_id)
             parcel.delete()
-            res['message'] = 'Parcel deleted successfully'
-            return Response(res, status=status.HTTP_200_OK)
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
         except Parcel.DoesNotExist:
-            res['is_error'] = True
-            res['message'] = 'Parcel not found'
+            res = {
+                'is_error': True,
+                'message': 'Parcel not found'
+            }
             return Response(res, status=status.HTTP_404_NOT_FOUND)

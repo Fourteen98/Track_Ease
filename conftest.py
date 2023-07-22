@@ -30,3 +30,15 @@ def create_tracking_update_record(create_parcel_record):
     }
     tracking_update = TrackingUpdate.objects.create(**defaults)
     return tracking_update
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def parcel_data():
+    data = {
+        "tracking_number": fake.random_int(),
+        "departure_address": fake.address(),
+        "destination_address": fake.address(),
+        "current_status": fake.word(),
+    }
+    return data
