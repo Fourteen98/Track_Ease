@@ -48,7 +48,6 @@ class TestTrackEase:
         assert response.json()['message'] == 'Parcel updated successfully', "Should update a parcel record"
 
     def test_track_ease_api_put_fails(self, client, create_parcel_record):
-        parcel = create_parcel_record
         data = {
             'tracking_number': 'ABC123',
             'departure_address': '',
