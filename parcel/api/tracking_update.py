@@ -17,12 +17,11 @@ class TrackingUpdateListCreateView(generics.ListCreateAPIView):
             'message': ''
         }
         try:
-            parcel = Parcel.objects.get(id=track_ease_id)
+            Parcel.objects.get(id=track_ease_id)
             serializer = TrackingUpdateSerializer(data=request.data)
             if serializer.is_valid():
                 tracking_update = serializer.save()
-                parcel.tracking_updates.add(tracking_update)
-                parcel.save()
+                tracking_update.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
                 res['is_error'] = True
@@ -40,7 +39,11 @@ class TrackingUpdateListCreateView(generics.ListCreateAPIView):
         }
         try:
             parcel = Parcel.objects.get(id=track_ease_id)
-            serializer = TrackingUpdateSerializer(parcel.tracking_updates.all(), many=True)
+            serializer = TrackingUpdateSerializer(parcel.updates.all(), many=True)
+            if not serializer.data:
+                res['is_error'] = True
+                res['message'] = 'No tracking updates found'
+                return Response(res, status=status.HTTP_404_NOT_FOUND)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Parcel.DoesNotExist:
             res['is_error'] = True
