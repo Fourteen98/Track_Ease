@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="{% static 'assets/css/index.css' %}">
+  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+
+  <!--Montesserat-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'assets/css/index.css' %}">
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          screens: {
+            'sm': '640px',
+            'md': '768px',
+            'lg': '1024px',
+            'xl': '1280px',
+            '2xl': '1536px',
+          },
+          backgroundImage: {
+          },
+          colors: {
+          },
+          fontFamily: {
+            'poppins': ['Poppins', 'sans-serif'],
+            'montserrat': ['Montserrat', 'sans-serif'],
+          },
+        },
+        plugins: [],
+      }
+    }
+  </script>
+  <title>TrackEase</title>
+</head>
+
+<body class="font-poppins bg-gray-100 w-full p-4">
+  {% block base-content %}
+      <div class="flex items-center justify-center">
+          <img src="{% static 'assets/images/track_ease.png' %}" alt="track-ease" class="w-96" />
+      </div>
+  {% endblock %}
+</body>
+</html>

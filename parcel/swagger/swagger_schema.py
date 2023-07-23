@@ -22,6 +22,7 @@ class SwaggerTrackEasySchemaView(APIView):
         "url": ROOT_URl,
         "patterns": [
             path('parcel/', include('parcel.urls')),
+            path('accounts/', include('django.contrib.auth.urls')),
         ]
     }
 
