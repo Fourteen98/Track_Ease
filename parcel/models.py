@@ -26,10 +26,9 @@ class Parcel(BaseModel):
 
 class TrackingUpdate(BaseModel):
     parcel = models.ForeignKey(Parcel, on_delete=models.CASCADE, related_name='updates')
-    timestamp = models.DateTimeField(auto_now_add=True)
-    location = models.CharField(max_length=200)
-    status = models.CharField(max_length=200, default=PENDING, choices=COMPLETION_STATUS)
-    notes = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True, editable=False)
+    longitude = models.FloatField()
+    latitude = models.FloatField()
 
     def __str__(self):
-        return f"{self.parcel.tracking_number} - {self.status} - {self.timestamp}"
+        return f"{self.parcel.tracking_number} - {self.timestamp} - {self.latitude} - {self.longitude}"

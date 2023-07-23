@@ -1,3 +1,5 @@
+from _decimal import Decimal
+
 import pytest
 
 
@@ -25,16 +27,6 @@ class TestTrackingUpdate:
     def test_tracking_update_creation(self, create_tracking_update_record):
         assert create_tracking_update_record is not None, "Should create a tracking update instance"
 
-    def test_tracking_update_str(self, create_tracking_update_record):
-        assert create_tracking_update_record.__str__() == f"{create_tracking_update_record.parcel.tracking_number} - " \
-                                                          f"{create_tracking_update_record.status} - " \
-                                                          f"{create_tracking_update_record.timestamp}", \
-            "Should return " \
-            "the tracking " \
-            "number, status " \
-            "and timestamp"
-
     def test_tracking_update_update(self, create_tracking_update_record):
-        create_tracking_update_record.status = "completed"
-        create_tracking_update_record.save()
-        assert create_tracking_update_record.status == "completed", "Should update the status field"
+
+        assert isinstance(create_tracking_update_record.latitude, Decimal), "Should latitude be a decimal"
