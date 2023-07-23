@@ -1,5 +1,5 @@
 from rest_framework import generics, status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from parcel.models import Parcel, TrackingUpdate
@@ -9,7 +9,7 @@ from parcel.serializers import TrackingUpdateSerializer
 class TrackingUpdateListCreateView(generics.ListCreateAPIView):
     queryset = TrackingUpdate.objects.all()
     serializer_class = TrackingUpdateSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, track_ease_id):
         res = {
