@@ -41,6 +41,7 @@ def create_tracking_update_record(create_parcel_record):
         "parcel": create_parcel_record,
         "longitude": fake.longitude(),
         "latitude": fake.latitude(),
+        "address": fake.address(),
     }
     tracking_update = TrackingUpdate.objects.create(**defaults)
     return tracking_update
@@ -53,6 +54,7 @@ def tracking_update_data(create_parcel_record):
         "parcel": create_parcel_record.id,
         "longitude": fake.longitude(),
         "latitude": fake.latitude(),
+        "address": fake.address(),
     }
     return data
 

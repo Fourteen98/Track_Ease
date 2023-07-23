@@ -29,6 +29,7 @@ class TrackingUpdate(BaseModel):
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
     longitude = models.FloatField()
     latitude = models.FloatField()
+    address = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.parcel.tracking_number} - {self.timestamp} - {self.latitude} - {self.longitude}"
