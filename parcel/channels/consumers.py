@@ -3,8 +3,13 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
+from parcel.gmaps.geocoding import Geocoding
+from parcel.models import TrackingUpdate
+
 
 class TrackingConsumer(WebsocketConsumer):
+    geocode = Geocoding()
+
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
         self.group_name = None
@@ -43,4 +48,23 @@ class TrackingConsumer(WebsocketConsumer):
     def receive(self, text_data):
         data = json.loads(text_data)
         if 'location' in data:
-            pass
+            latitude = data['location']['latitude']
+            longitude = data['location']['longitude']
+            address = self.geocode.reverse_geocode(latitude, longitude)
+            TrackingUpdate.objects.create(
+                parcel_id=self.track_ease_id,
+                longitude=longitude,
+                latitude=latitude,
+                address=address,
+            )
+            async_to_sync(self.channel_layer.group_send)(
+                self.group_name,
+                {
+                    'type': 'tracking_update',
+                    'latitude': latitude,
+                    'longitude': longitude,
+                    'address': address,
+                }
+            )
+
+

@@ -3,7 +3,7 @@ from django.urls import include, path
 
 from parcel.api.parcel import ParcelListCreateView
 from parcel.api.tracking_update import TrackingUpdateListCreateView
-from parcel.channels.routing import websocket_urlpatterns
+from track_ease.routing import websocket_urlpatterns
 from parcel.swagger.swagger_schema import SwaggerTrackEasySchemaView
 
 app_name = 'parcel'

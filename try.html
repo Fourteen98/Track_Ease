@@ -1,44 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Get User Location</title>
+    <title>Live Parcel Tracking</title>
 </head>
 <body>
-  <button onclick="getLocation()">Get My Location</button>
-  <p id="output"></p>
+    <h1>Live Parcel Tracking</h1>
+    <p>Tracking your parcel in real-time...</p>
 
-  <script>
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-      } else {
-        alert("Geolocation is not supported by this browser.");
-      }
-    }
+    <script>
+        // WebSocket connection URL
+        const socket = new WebSocket('ws://localhost:8080/ws/tracking/');
 
-    function showPosition(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
+        // Function to send location updates to the WebSocket server
+        function sendLocationUpdate(position) {
+            const { latitude, longitude } = position.coords;
 
-      document.getElementById("output").innerHTML = "Latitude: " + latitude + "<br>Longitude: " + longitude;
-    }
+            const trackingUpdate = {
+                parcel_id: '37ce07669534462c9826e6a7b6853d46', // Replace with the actual parcel ID
+                latitude,
+                longitude,
+            };
 
-    function showError(error) {
-      switch (error.code) {
-        case error.PERMISSION_DENIED:
-          alert("User denied the request for Geolocation.");
-          break;
-        case error.POSITION_UNAVAILABLE:
-          alert("Location information is unavailable.");
-          break;
-        case error.TIMEOUT:
-          alert("The request to get user location timed out.");
-          break;
-        case error.UNKNOWN_ERROR:
-          alert("An unknown error occurred.");
-          break;
-      }
-    }
-  </script>
+            // Send the tracking update as a JSON string to the WebSocket server
+            socket.send(JSON.stringify(trackingUpdate));
+        }
+
+        // Function to handle errors when fetching location
+        function handleError(error) {
+            console.error('Error occurred while fetching location:', error.message);
+        }
+
+        // Function to start sending continuous location updates
+        function startLocationUpdates() {
+            if ("geolocation" in navigator) {
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                };
+
+                // Fetch the current location and send updates to the WebSocket server every 5 seconds
+                navigator.geolocation.watchPosition(sendLocationUpdate, handleError, options);
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Event listener to handle WebSocket connection opening
+        socket.onopen = function(event) {
+            console.log('WebSocket connected.');
+            startLocationUpdates(); // Start sending location updates when the WebSocket is connected
+        };
+
+        // Event listener to handle WebSocket messages (optional)
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            // Handle incoming tracking updates from the server (if needed)
+        };
+
+        // Event listener to handle WebSocket connection closing (optional)
+        socket.onclose = function(event) {
+            console.log('WebSocket closed.');
+        };
+    </script>
 </body>
 </html>

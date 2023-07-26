@@ -153,7 +153,6 @@ REST_FRAMEWORK = {
     ],
     'EXCEPTION_HANDLER':
         'parcel.utils.api_exception_handler.api_exception_handler'
-
 }
 
 LOGIN_URL = 'rest_framework:login'
