@@ -16,3 +16,10 @@ class Geocoding(object):
             if geocode_result:
                 return geocode_result[0]['geometry']['location']
         return {}
+
+    def reverse_geocode(self, latitude, longitude):
+        if latitude and longitude:
+            reverse_geocode_result = self.client.reverse_geocode((latitude, longitude))
+            if reverse_geocode_result:
+                return reverse_geocode_result[0]['formatted_address']
+        return ''

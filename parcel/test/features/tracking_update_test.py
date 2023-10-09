@@ -14,7 +14,7 @@ class TestTrackingUpdate:
 
     def test_tracking_update_api_create_fails(self, django_admin_user_client, tracking_update_data):
         data = tracking_update_data
-        data['status'] = ''
+        data['latitude'] = ''
         client = django_admin_user_client
         response = client.post(reverse('parcel:tracking_update', kwargs={'track_ease_id': tracking_update_data['parcel']}),
                                data=data,

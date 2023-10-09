@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Parcel Tracking</title>
+</head>
+<body>
+    <h1>Live Parcel Tracking</h1>
+    <p>Tracking your parcel in real-time...</p>
+
+    <script>
+        // WebSocket connection URL
+        const socket = new WebSocket('ws://localhost:8080/ws/tracking/');
+
+        // Function to send location updates to the WebSocket server
+        function sendLocationUpdate(position) {
+            const { latitude, longitude } = position.coords;
+
+            const trackingUpdate = {
+                parcel_id: '37ce07669534462c9826e6a7b6853d46', // Replace with the actual parcel ID
+                latitude,
+                longitude,
+            };
+
+            // Send the tracking update as a JSON string to the WebSocket server
+            socket.send(JSON.stringify(trackingUpdate));
+        }
+
+        // Function to handle errors when fetching location
+        function handleError(error) {
+            console.error('Error occurred while fetching location:', error.message);
+        }
+
+        // Function to start sending continuous location updates
+        function startLocationUpdates() {
+            if ("geolocation" in navigator) {
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                };
+
+                // Fetch the current location and send updates to the WebSocket server every 5 seconds
+                navigator.geolocation.watchPosition(sendLocationUpdate, handleError, options);
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Event listener to handle WebSocket connection opening
+        socket.onopen = function(event) {
+            console.log('WebSocket connected.');
+            startLocationUpdates(); // Start sending location updates when the WebSocket is connected
+        };
+
+        // Event listener to handle WebSocket messages (optional)
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            // Handle incoming tracking updates from the server (if needed)
+        };
+
+        // Event listener to handle WebSocket connection closing (optional)
+        socket.onclose = function(event) {
+            console.log('WebSocket closed.');
+        };
+    </script>
+</body>
+</html>

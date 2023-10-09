@@ -16,7 +16,7 @@ class ParcelListCreateView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer_instance = serializer.save()
         parcel = ParcelSerializer(serializer_instance)
-        return Response({"status": "success", "message": "Parcel Tracking Instantiated", "parcel_id": parcel.data},
+        return Response({"status": "success", "message": "Parcel Tracking Instantiated", "parcel": parcel.data},
                         status=status.HTTP_201_CREATED)
 
     def get(self, request, track_ease_id):
